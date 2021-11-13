@@ -6,18 +6,79 @@
     <meta charset="utf-8">
     <meta name="description" content="Немного интересной информации про Японию">
       <style>
-          aside {float: right}
+          aside {
+          background: #051736; width: 15%; float: right;
+          border: 10px solid red;
+          }
+
+          h2 {
+          background: #9ad2f5; width: calc(40% - 53px);
+          }
+
+          * {
+          font-family: Georgia, serif;
+          }
+
+          .note {
+          font-style: bold; color: red; border: 4px solid red; width: 25%; float: right
+          }
+
+          #contact {
+          color: purple; font-family: Bradley Hand, cursive;
+          }
+
+          article h3 {
+          color: blue;
+         }
+          h2 ~ p {
+          color: green;
+         }
+
+         :root {
+         --ads-letters-color: #f002f5
+         }
+
+         aside p {
+          color: var(--ads-letters-color);
+          quotes: '\00ab' '\00bb';
+         }
+
+         h2:hover {
+         color: #b022bf
+         }
+
+         a:visited {
+         color: pink;
+         }
+
+         h3::before {
+         content: "❃"; color: red;
+         }
+
+         h2::first-letter {
+         color: #b713ba; font-size: 160%;
+         }
+
+         img {
+         border: 0.7cm solid red;
+         }
+
+         html {
+  scroll-behavior: hard;
+}
+
       </style>
   </head>
   <header>
-      <h1> Узнай больше про Японию! </h1>
+      <h1 style="position: sticky; left: 30px"> Узнай больше про Японию! </h1>
   </header>
   <body>
     <main>
-        <aside> <p> <b> У нас вы можете заказать товары из Японии! </b> </p></aside>
+        <p style="display: none"> К сожалению, я невидимка:) </p>
+        <aside> <p> <b> У нас вы можете заказать <q> товары из Японии! </q> </b> </p></aside>
       <section>
-         <p> Всем привет! Добро пожаловать на сайт, посвященный Стране восходящего солнца!</p>
-         <p> Здесь вы сможете узнать много нового про географию, кухню и язык Японии, а также обсудить интересующие вас иные темы касательно этого чудесного государства. </p>
+         <p style="font-size:12px; background: #e08dd9; border: 0.5rem solid; width: 45vw; resize: both"> Всем привет! Добро пожаловать на сайт, посвященный Стране восходящего солнца!</p>
+         <p style="font-size:12px; background: #e08dd9; border: 0.5em solid; width: 45vh"> Здесь вы сможете узнать много нового про географию, кухню и язык Японии, а также обсудить интересующие вас иные темы касательно этого чудесного государства. </p>
       </section>
       <section>
           <h2> Немного про географию &#128510; </h2>
@@ -52,8 +113,8 @@
             <p>
                <article> В японском языке выделяют две слоговые азбуки:
                 <ul>
-                    <li>Хирагана</li>
-                    <li>Катакана</li>
+                    <li style="display: inline">Хирагана</li>
+                    <li style="display: inline">Катакана</li>
         </ul>
             </p>
              <p> Ниже приведено изображение, катаканы и хираганы: </p>
@@ -62,15 +123,15 @@
             </article>
       </section>
 
-        <p>Не забудьте оставить <mark>Ваш отзыв</mark> о нашем проекте.</p>
+        <p class="note" style="position: fixed; right: 10px; bottom: 15px; background:white">Не забудьте оставить <mark>Ваш отзыв</mark> о нашем проекте.</p>
     </main>
   </body>
 <footer>
     <p> Контактная информация:
     <ol>
-        <li>Мобильный телефон: +7 (123) 456-78-90</li>
-        <li>e-mail: email@mail.com</li>
-        <li>git-репозиторий: <a href="https://github.com/42gami-sama/Web.git"> ссылка на GitHub </a> </li>
+        <li id="contact" style="position: relative; left: 20px; display: block">Мобильный телефон: +7 (123) 456-78-90</li>
+        <li id="contact" style="position: static; display: block">e-mail: email@mail.com</li>
+        <li id="contact" style="position: absolute; left: 100px; display: block">git-репозиторий: <a href="https://github.com/42gami-sama/Web.git"> ссылка на GitHub </a> </li>
     </ol></p>
 </footer>
 </html>
