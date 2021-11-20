@@ -4,6 +4,58 @@
   <head>
     <title>Япония и факты про нее</title>
     <meta charset="utf-8">
+    <script type="text/javascript">
+
+        globalThis["cur"] = {"yen": 0.64, "mexPeso": 3.53, "laoKip": 0.0069};
+
+        console.log ("Приведем коэффициенты перевода в иностранную валюту:");
+        for (let value in cur) {
+            console.log ("%s", value);
+        }
+    
+
+        console.log ("Распишем \"иену\" по буковкам:");
+        for (let value of "yen"){
+            console.log ("%s", value);
+        }
+
+        function convert (yourRouble, cur) {
+            let yourSum = yourRouble/cur;
+            return yourSum;
+        }
+
+        console.log ("Ваша сумма в  %f", convert (100, cur.yen));
+
+        {
+          var mexPeso = convert (100, cur.mexPeso);
+          let laoKip = convert (100, cur.laoKip);
+        }
+        console.log ("А если перевести 100 рублей в мексиканские песо получится: %f", mexPeso); //эта переменная сильная, её можно выносить за пределы слабого блока кода
+        console.log ("А вот перевод ста рублей в лаосский кип мы узнать не можем, так она у нас: %s", typeof (laoKip)); //эта переменная слабая, её нельзя выносить за пределы слабого блока кода
+
+        let minus = (curSum, loss) => (curSum - loss);
+        let rem=minus (convert (100, cur.yen), 37.25).toFixed(2);
+        let int=Math.trunc(rem);
+        console.log ("О нет, во время прогулки Вы потеряли 37 иен. Теперь осталось лишь: %f",int, "и какие-то копеечки...");
+        if (int === rem) // 1 !=== "1.00" - никогда не сработает, если бы не было toFixed, то работал бы также как следующий if
+        {
+            console.log("Упс, Вы потеряли еще и копеечки, но здесь Вы этого не узнаете...");
+        }
+         if (int == rem) // 1 == "1.00" - сработает, если округлять было не нужно
+        {
+            console.log("Упс, Вы потеряли еще и копеечки...");
+        }
+
+        console.log ("Давайте заменим наши валюты:");
+
+        let newCur = ["dollar", "euro", "poundSt"];
+        let [yen, mexiPeso, LaoKip] = newCur;
+        console.log ("%s", yen);
+        console.log ("%s", mexiPeso);
+        console.log ("%s", LaoKip);
+
+
+    </script>
     <meta name="description" content="Немного интересной информации про Японию">
       <style>
           aside {
