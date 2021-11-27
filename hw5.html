@@ -1,0 +1,195 @@
+<html>
+	<head>
+		<title> Классы </title>
+		<meta charset = "utf-8">
+		<script>
+
+			{ // Классовое наследование
+				class Food
+				{
+					constructor (name, calories){
+						this.name = name;
+						this.calories = calories;
+					}
+
+					cook(){
+						console.log (`Now I\'m cooking ${this.name}.`); //добавили метод
+					}
+				}
+
+				class Dessert extends Food
+				{
+						diet(){
+							if (this.calories > 100) {
+								console.log ("It has too much calories and you are on a diet. But I won't tell anyone.");
+								this.calories = 99;
+
+							}
+						}
+
+				}
+
+				let cookies = new Dessert ("cookies", 300);
+				cookies.cook();
+				cookies.diet();
+			}
+
+			{ // Прототипное наследование
+				let Lunch = 
+				{
+					time: 12,
+					meals: 3,
+					eat (eaten)
+					{
+						this.eaten = eaten;
+					}
+				}
+
+				let Dinner = Object.create(Lunch);
+				Dinner.eat(1);
+				console.log (Dinner);
+			}
+
+			{ // Работа с прототипами
+				let child = 
+				{
+					grows: true
+				}
+
+				let rice =
+				{
+					eatable: true
+				}
+
+				Object.setPrototypeOf(rice, child);
+
+				console.log (rice.eatable);
+				console.log (rice.grows);
+
+				console.log (Object.getPrototypeOf(rice) === child);
+			}
+
+			{ // Теневой метод
+
+				class Drinks
+				{
+					constructor (colour, vegan, ml, name)
+					{
+						this.ml = ml;
+						this.colour = colour;
+						this.vegan = vegan;
+						this.name = name;
+					}
+				}
+
+				class Matcha extends Drinks 
+				{
+					constructor (ml,name){
+						super("green", "vegan");
+						this.ml = ml;
+						this.name = name;
+					}
+				}
+				let drink = new Matcha (600, "Coconut Matcha");
+				console.log (drink.ml);
+				console.log (drink.colour);
+			}
+
+			{ // Свойства объекта
+				let Soup = {};
+				Object.defineProperty (Soup, "expires",{
+					value: 3,
+					enumerable: false,
+					configurable: false,
+					writable: true
+				});
+				console.log (Soup.expires); //3
+
+				Object.defineProperty (Soup, "dead",{
+					set: function(date){ 
+						if (this.expires === date){
+							this.expires = 0;
+							console.log ("It expired!");
+							return 0;
+						}
+						}
+				});
+				
+				Soup.dead = 3;
+				console.log (Soup.expires);
+			}
+
+			{ // Вызов метода чужого объекта
+
+				function eat (name) {
+					this.name = name;
+					console.log ("Let's eat " + this.name + ".");
+				}
+
+				function veggie (name) {
+					eat.call (this, name);
+					console.log ("You should wash it beforehead.");
+
+				}
+
+				let cucumber = new veggie("cucumber");
+			}
+
+			{ // Создание нового метода у всех строк
+
+				String.prototype.tasty = function() {
+					console.log(`${this} is tasty!`);
+				}
+
+				cucumber = "Cucumber";
+				cucumber.tasty();
+			}
+
+			{ // Приватные свойства объекта
+
+				class Food {
+					#recipe = "Secret recipe"; // приватное поле
+					constructor(calories){
+						this.calories = calories; // защищенное поле
+					}
+				}
+
+				let cake = new Food(40);
+				//console.log (cake.#recipe); будет выдвать ошибку
+				//cake.#recipe = "Steal"; также выдаст ошибку
+			}
+
+			{ // Mix-in
+
+				let taste = {
+
+					spicy() {
+						console.log (this.name + " is spicy! Be careful!");
+					},
+
+					sweet() {
+						console.log (this.name + " is sweet! Have pleasure!");
+					}
+
+				};
+
+				class SpicySweet {
+					constructor(name) {
+						this.name = name;
+					}
+				}
+
+				Object.assign(SpicySweet.prototype, taste);
+
+				new SpicySweet("Curry").spicy();
+				new SpicySweet("Curry").sweet();
+			}
+
+		</script>
+	
+	</head>
+
+	<body>
+	</body>
+
+</html>
