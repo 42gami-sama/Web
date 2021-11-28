@@ -1,10 +1,13 @@
 <html>
 	<head>
-		<title> Классы </title>
+		<title> Классы и еда </title>
 		<meta charset = "utf-8">
 		<script>
 
 			{ // Классовое наследование
+
+				// class
+
 				class Food
 				{
 					constructor (name, calories){
@@ -32,6 +35,21 @@
 				let cookies = new Dessert ("cookies", 300);
 				cookies.cook();
 				cookies.diet();
+
+				// класс-функция
+
+				function Grain (cookTime) {
+					this.cookTime = cookTime;
+				}
+
+				class Rice extends Grain {
+					boil(){
+						console.log (`Usually I\'m boiled for ${this.cookTime} minutes.`);
+					}
+				}
+
+				let brownRice = new Rice(30);
+				brownRice.boil();
 			}
 
 			{ // Прототипное наследование
@@ -96,11 +114,21 @@
 			}
 
 			{ // Свойства объекта
+
+				// вне
 				let Soup = {};
+
+				Object.defineProperty (Soup, "numberIngr",{
+					value: 6,
+					enumerable: false,
+					configurable: false,
+					writable: false
+				});
+
 				Object.defineProperty (Soup, "expires",{
 					value: 3,
 					enumerable: false,
-					configurable: false,
+					configurable: true,
 					writable: true
 				});
 				console.log (Soup.expires); //3
@@ -117,6 +145,21 @@
 				
 				Soup.dead = 3;
 				console.log (Soup.expires);
+
+				//внутри
+				class NoodlesPacks{
+					constructor(){
+						this.number = 0;
+					}
+					get amount(){
+						return this.number;
+					}
+					set amount(value){
+						console.log ("You can only buy an integer number of packets.");
+						this.number = int (value);
+					}
+				}
+
 			}
 
 			{ // Вызов метода чужого объекта
@@ -161,6 +204,8 @@
 
 			{ // Mix-in
 
+				//assign
+
 				let taste = {
 
 					spicy() {
@@ -183,6 +228,23 @@
 
 				new SpicySweet("Curry").spicy();
 				new SpicySweet("Curry").sweet();
+
+				//base
+
+				let anotherTaste = Base => class extends Base {
+					salty(){
+						console.log (this.name + " is salty! Drink water!");
+					}
+				};
+
+				class Sauce {
+					constructor (name){
+						this.name = name;
+					}
+				}
+				class saltySauce extends anotherTaste(Sauce){}
+				let soya = new saltySauce("Soya sauce");
+				soya.salty();
 			}
 
 		</script>
