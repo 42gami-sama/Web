@@ -165,18 +165,45 @@
 
 			{ // Вызов метода чужого объекта
 
+				//немного другой вариант
+
+				
+				function veggie (name) {
+					this.name = name;	
+				} // создали veggie
+
 				function eat (name) {
 					this.name = name;
+				} // создали eat
+
+				eat.prototype.letUsEat = function() {
 					console.log ("Let's eat " + this.name + ".");
-				}
+				} //добавили метод к eat
 
-				function veggie (name) {
-					eat.call (this, name);
-					console.log ("You should wash it beforehead.");
 
-				}
+				veggie.prototype.letUsEat = function() {
+					eat.prototype.letUsEat.call (this); //вызываем метод от eat
+					console.log ("You should wash it beforehand.");
+				} // добавили метод к veggieS
 
 				let cucumber = new veggie("cucumber");
+				cucumber.letUsEat();
+
+
+				//старый вариант
+
+				// function eat (name) {
+				// 	this.name = name;
+				// 	console.log ("Let's eat " + this.name + ".");
+				// }
+
+				// function veggie (name) {
+				// 	eat.call (this, name);
+				// 	console.log ("You should wash it beforehead.");
+
+				// }
+
+				// let cucumber = new veggie("cucumber");
 			}
 
 			{ // Создание нового метода у всех строк
