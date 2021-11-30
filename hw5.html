@@ -42,16 +42,32 @@
 					this.cookTime = cookTime;
 				}
 
+				Grain.prototype.buy = function(){
+					console.log(`I should buy grain that is cooked for ${this.cookTime} minutes.`);
+				}
+
 				function Rice(){
-					Grain.apply (this,arguments); //функциональное наследование; здесь используем apply (можно также применить call), чтобы гарантировать передачу всех аргументов (здесь один, так что не столь принципиально)
+					Grain.apply (this,arguments);
+					//функциональное наследование; здесь используем apply (можно также применить call), чтобы гарантировать передачу всех аргументов (здесь один, так что не столь принципиально)
 					this.boil = function(){
 						console.log (`Usually I\'m boiled for ${this.cookTime} minutes.`);
 						return;
 					}
 				}
 
+				Rice.prototype = Object.create(Grain.prototype);
+
 				let brownRice = new Rice(30);
+
+				let rice = new Grain(45);
+
+				rice.buy();
+				
+				brownRice.buy();
+
 				brownRice.boil();
+
+				console.log (brownRice instanceof Grain); //TRUE
 			}
 
 			{ // Прототипное наследование
