@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Element</title>
+    <style>
+
+        :root { 
+            background-color: #D8F3F3;
+        }
+
+        #welcome {
+            background-color: pink;
+        };
+
+        .hey {
+           color: red;
+        };
+
+        .line {
+           color: blueviolet;
+        };
+
+    </style>
+</head>
+<body>
+
+    <div class="hey"><p>Let's get started!</p></div>
+
+    <section id="hello"> </section>
+
+    <ul id="menu"><li class="siblings">Drinks</li></ul>
+
+    <section id="text" style="background-color: skyblue;:"> <p> Meow </p><p id="remove">Woof</p> </section>
+
+
+    <script>
+        {// Создание элемента, добавление элемента, создание текстового узла, навигация по DOM, получение элемента по ID, переход к родителю, переход к предыдущему узлу, установка атрибута
+
+            let attr = document.querySelector(".hey")
+            attr.setAttribute("position", "absolute"); //установка атрибута
+
+            let newH1 = document.createElement("h1"); //создание элемента
+            newH1.id = "welcome"; //установка ID
+            newH1.textContent = "Welcome! We have some cute elements!"; //создание текстового узла
+
+            let hello = document.getElementById("hello"); //получение элемента по ID
+            
+            hello.appendChild(newH1); // навигация DOM, добавление элемента последним в элемент
+
+
+            if (newH1.childNodes[0] === newH1.firstChild){
+                console.log ("True");
+                console.log (newH1.firstChild); //навигация по DOM - получили доступ к первому узлу элемента (тут он один - текстовый)
+                }
+
+            console.log ("By the way, let us see our parent node:");
+            console.log (newH1.parentNode); //переход к родителю
+
+            console.log ("Hm, and what was the previous node for our welcome:");
+            let presentNode = document.querySelector ("#hello").previousSibling;
+            console.log (presentNode);
+
+        }
+
+        {// Создание фрагмента документа, его добавление,переход к следующему узлу, узлы-потомки, переход к предыдущему элементу, элементы-потомки
+
+            let meals = ["Meat", "Fish", "Vegetables", "Fruits"]; //массив для списка
+            
+            let menuEl = document.querySelector("#menu");
+            let FD = document.createDocumentFragment(); //создание фрагмента документа
+
+            meals.forEach((meal) => {
+                let myList = document.createElement("li");
+                myList.innerHTML = meal;
+                FD.appendChild(myList);
+            })
+
+            menuEl.appendChild(FD); //добавление фрагмента документа
+
+            if (FD.nodeType === Node.DOCUMENT_FRAGMENT_NODE){
+                console.log ("True"); //TRUE
+            }
+
+            console.log ("Besides, we can see the next sibling of the first list node:")
+            let nextSibling = document.querySelector(".siblings").nextSibling;//переход к следующему узлу
+            console.log (nextSibling);
+
+            console.log ("And it seems our next sibling has a child node which is text:");
+            let children = nextSibling.childNodes;
+            console.log (children); //перечислены узлы-потомки (тут один)
+            
+            console.log ("But the child node is not a child element here:")
+            if (children[0] != nextSibling.firstElementChild) {
+                console.log ("True"); //nextSibling.firstElementChild - здесь будет null, а children[0] - "Meat"; элементы-потомки
+            }
+
+            console.log ("Oh, and let'\s find out what was the previous element for our list:");
+            let previousElSibling = menuEl.previousElementSibling; //предыдущий элемент
+            console.log (previousElSibling);
+        }
+        {//Манипуляция атрибутами, удаление атрибута, установка класса, добавление текстового узла, добавить первым в элемент, добавить в середину элемента, добавить за элементом, удаление элемента из DOM
+
+            console.log ("Let's check if the attribute exists:")
+            let myText = document.getElementById("text");
+            console.log(myText.hasAttribute ("style")); //true, манипуляция атрибутами
+            myText.removeAttribute ("style"); //удаление атрибута
+
+            let p1 = document.createElement("p");
+            p1.className = "line1 line2"; //установка класса
+
+            let text1 = document.createTextNode (" I am the first!"); //создание текстового узла
+
+            let text2 = document.createTextNode (" I am not in italics!")
+            p1.appendChild(text1); //добавление текстового узла 
+            p1.appendChild(text2); 
+
+            myText.insertBefore(p1, myText.firstChild); //добавить первым в элемент
+
+            let p2 = document.createElement("p");
+            p2.innerHTML = "<i>I'm in the middle</i>";
+
+            myText.insertBefore(p2, myText.firstChild.nextSibling); //добавить в середину + за элементом
+
+            let eliminate = document.getElementById ("remove");
+            eliminate.remove();//удаление элемента
+            
+
+        }
+
+        
+    </script>
+</body>
+</html>
