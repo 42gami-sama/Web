@@ -25,7 +25,7 @@
 </head>
 <body>
 
-    <div class="hey"><p>Let's get started!</p></div>
+    <div class="hey" style=""><p>Let's get started!</p></div>
 
     <section id="hello"> </section>
 
@@ -38,7 +38,7 @@
         {// Создание элемента, добавление элемента, создание текстового узла, навигация по DOM, получение элемента по ID, переход к родителю, переход к предыдущему узлу, установка атрибута
 
             let attr = document.querySelector(".hey")
-            attr.setAttribute("position", "absolute"); //установка атрибута
+            attr.setAttribute("style", "position: relative; left: 300px"); //установка атрибута
 
             let newH1 = document.createElement("h1"); //создание элемента
             newH1.id = "welcome"; //установка ID
@@ -74,7 +74,7 @@
                 let myList = document.createElement("li");
                 myList.innerHTML = meal;
                 FD.appendChild(myList);
-            })
+            });
 
             menuEl.appendChild(FD); //добавление фрагмента документа
 
@@ -99,7 +99,7 @@
             let previousElSibling = menuEl.previousElementSibling; //предыдущий элемент
             console.log (previousElSibling);
         }
-        {//Манипуляция атрибутами, удаление атрибута, установка класса, добавление текстового узла, добавить первым в элемент, добавить в середину элемента, добавить за элементом, удаление элемента из DOM
+        {//Манипуляция атрибутами, удаление атрибута, установка класса, добавление текстового узла, добавить первым в элемент, добавить в середину элемента, добавить за элементом, удаление элемента из DOM, нормализация содержимого
 
             console.log ("Let's check if the attribute exists:")
             let myText = document.getElementById("text");
@@ -110,10 +110,12 @@
             p1.className = "line1 line2"; //установка класса
 
             let text1 = document.createTextNode (" I am the first!"); //создание текстового узла
-
             let text2 = document.createTextNode (" I am not in italics!")
             p1.appendChild(text1); //добавление текстового узла 
             p1.appendChild(text2); 
+            console.log(p1.childNodes.length); //тут есть два узла-потомка
+            p1.normalize();
+            console.log(p1.childNodes.length); //тут уже один, так как мы нормализовали содержимое
 
             myText.insertBefore(p1, myText.firstChild); //добавить первым в элемент
 
