@@ -33,6 +33,12 @@
 
     <section id="text" style="background-color: skyblue;:"> <p> Meow </p><p id="remove">Woof</p> </section>
 
+    <section id="ohNo"><p><b>I am here and I am alive and I am bold!</b></p></section>
+    <section id="scope">
+        <div id="1">Look at me!</div>
+        <div id="2">Please:3</div>
+    </section>
+
 
     <script>
         {// Создание элемента, добавление элемента, создание текстового узла, навигация по DOM, получение элемента по ID, переход к родителю, переход к предыдущему узлу, установка атрибута
@@ -73,7 +79,7 @@
             meals.forEach((meal) => {
                 let myList = document.createElement("li");
                 myList.innerHTML = meal;
-                FD.appendChild(myList);
+                FD.appendChild(myList); //наполнение фрагмента
             });
 
             menuEl.appendChild(FD); //добавление фрагмента документа
@@ -120,6 +126,7 @@
             myText.insertBefore(p1, myText.firstChild); //добавить первым в элемент
 
             let p2 = document.createElement("p");
+            p2.textContent = "I was here!";
             p2.innerHTML = "<i>I'm in the middle</i>";
 
             myText.insertBefore(p2, myText.firstChild.nextSibling); //добавить в середину + за элементом
@@ -127,7 +134,16 @@
             let eliminate = document.getElementById ("remove");
             eliminate.remove();//удаление элемента
             
-
+        }
+        { //Изменение HMTL в текстовом виде, демонстрация проблемы изменения HTML в текстовом виде
+            let ohNo = document.getElementById("ohNo");
+            ohNo.innerText = "I have eaten everything here!";
+            ohNo.innerHTML = "<b>I have eaten everything here but at least I'm bold!</b>";
+        }
+        { //Псевдоселектор scope
+            let scope = document.getElementById("scope");
+            let selected = scope.querySelectorAll(":scope > div")[0]; //применили :scope, чтобы получить доступ к первому элементы-потомку
+            console.log (selected);
         }
 
         
