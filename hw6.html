@@ -39,6 +39,8 @@
         <div id="2">Please:3</div>
     </section>
 
+    <section id="event" oncopy="console.log('Copied!')"> Copy me! </section> <!--уставнока события-атрибута-->
+
 
     <script>
         {// Создание элемента, добавление элемента, создание текстового узла, навигация по DOM, получение элемента по ID, переход к родителю, переход к предыдущему узлу, установка атрибута
@@ -71,7 +73,7 @@
 
         {// Создание фрагмента документа, его добавление,переход к следующему узлу, узлы-потомки, переход к предыдущему элементу, элементы-потомки
 
-            let meals = ["Meat", "Fish", "Vegetables", "Fruits"]; //массив для списка
+            let meals = ["Meat", "Fish", "Vegetables", "Fruit"]; //массив для списка
             
             let menuEl = document.querySelector("#menu");
             let FD = document.createDocumentFragment(); //создание фрагмента документа
@@ -144,6 +146,46 @@
             let scope = document.getElementById("scope");
             let selected = scope.querySelectorAll(":scope > div")[0]; //применили :scope, чтобы получить доступ к первому элементы-потомку
             console.log (selected);
+        }
+
+        {//Использование только кастомных событий, создание своего события, отправка своего события, уставновка события, установка события-атрибута (выше), удаление события
+
+            function highlight(element) {
+                let bgColor = "#FFD595";
+                element.style.backgroundColor = bgColor; //задаем функцию для события
+        
+            let eventMine = new CustomEvent ("highlight", {
+                detail: {
+                    backgroundColor: bgColor
+                }
+            }); //создаем кастомное событие
+
+            element.dispatchEvent(eventMine); //отправляем событие
+            }
+
+            let elEv = document.getElementById("event"); //получаем элемент для события
+
+            let look = function(){
+                console.log ("My background is orange!");
+            }
+
+            elEv.addEventListener("highlight", look); //установка события
+            
+            highlight(elEv); //применили функцию для события на элемент
+
+            elEv.removeEventListener("highlight", look); //удалили событие
+
+            highlight(elEv); //ничего не выведется 
+
+
+
+            /*let checking = eventMine.checkValidity();
+            console.log (checking);*/
+
+            let repEv = document.getElementById("event");
+            repEv.removeAttribute("oncopy");
+            repEv.setAttribute("oncopy", "console.log('It seems I have been copied again!')");
+
         }
 
         
