@@ -1,8 +1,11 @@
 <!DOCTYPE html>
+
+<!-- Наталия Громыко:   Создание элемента   Добавление нового элемента  Навигация по DOM    Создание текстового узла    Создание фрагмента документа    Манипуляция атрибутами  Удаление атрибута   Установка атрибута  Установка класса    Установка ID    Изменение HMTL в текстовом виде Демонстрация проблемы изменения HTML в текстовом виде   Переход к следующему узлу   Переход к предыдущему узлу  Узлы-потомки    Переход к предыдущему элементу  Элементы-потомки    Переход к родителю  Добавить первым в элемент   Добавить последним в элемент    Добавить в середину элемента    Добавить за элементом   Удалить элемент из DOM  Нормализация содержимого    Добавление текстового узла  Добавление фрагмента документа Получение элемента по ID    Псевдоселектор scope    Использование только событий мыши   Использование только событий клавиатуры Использование только событий прокрутки  Использование только кастомных событий  Создание своего события Отправка своего события Проверка события на валидность  Предотвращение стандартного действия    Немедленное прекращение распространения Установка события   Установка события-атрибута  Удаление события    Замена события-атрибута Установка события-атрибута через шорткат Демонстрация различных фаз события  Создание одиночного слушателя   Создание пассивного слушателя   Определение истинной цели события   Детектирование типа события Демонстрация бессмысленности passive capture --> 
+
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Element</title>
+    <title>Elements and events</title>
     <style>
 
         :root { 
@@ -31,7 +34,7 @@
 
     <ul id="menu"><li class="siblings">Drinks</li></ul>
 
-    <section id="text" style="background-color: skyblue;:"> <p> Meow </p><p id="remove">Woof</p> </section>
+    <section id="text" style="background-color: skyblue;:"> <p id="meow"> Meow </p><p id="remove">Woof</p> </section>
 
     <section id="ohNo"><p><b>I am here and I am alive and I am bold!</b></p></section>
     <section id="scope">
@@ -39,7 +42,21 @@
         <div id="2">Please:3</div>
     </section>
 
-    <section id="event" oncopy="console.log('Copied!')"> Copy me! </section> <!--уставнока события-атрибута-->
+    <section id="event" oncopy="console.log('Copied!')"> Copy me! </section> <!--уставнока события-атрибута (для кастомных события-атриубута нет)-->
+   
+    <div id="prawn"> I do not want to be pink! </div>
+    <button onclick="pink()">Press to make the phrase pink</button> <!--уставнока события-атрибута нужна для предотвращения дефолтного события ниже-->
+
+    <section>
+        <input id="myNumber" type="number" min="5" max="20" required>
+        <button id="Shortcut" >Let's check your number!</button>
+    </section>
+
+    <section class="phase">SECTION
+        <div class="phase">DIV
+            <p class="phase">P</p>
+        </div>
+    </section>
 
 
     <script>
@@ -144,11 +161,11 @@
         }
         { //Псевдоселектор scope
             let scope = document.getElementById("scope");
-            let selected = scope.querySelectorAll(":scope > div")[0]; //применили :scope, чтобы получить доступ к первому элементы-потомку
+            let selected = scope.querySelectorAll(":scope > div")[0]; //применили :scope, чтобы получить доступ к первому элементe-потомку
             console.log (selected);
         }
 
-        {//Использование только кастомных событий, создание своего события, отправка своего события, уставновка события, установка события-атрибута (выше), удаление события
+        {//Кастомные события, создание своего события, отправка своего события, уставновка события, установка события-атрибута (выше), удаление события, замена события-атрибута
 
             function highlight(element) {
                 let bgColor = "#FFD595";
@@ -165,30 +182,128 @@
 
             let elEv = document.getElementById("event"); //получаем элемент для события
 
-            let look = function(){
+            let look = function(event){
                 console.log ("My background is orange!");
+            }
+
+            let lookX2 = function(event){
+                console.log ("No one will be able to see me!");
             }
 
             elEv.addEventListener("highlight", look); //установка события
             
-            highlight(elEv); //применили функцию для события на элемент
 
+            highlight(elEv); //применили функцию для события на элемент
+        
             elEv.removeEventListener("highlight", look); //удалили событие
 
             highlight(elEv); //ничего не выведется 
 
-
-
-            /*let checking = eventMine.checkValidity();
-            console.log (checking);*/
-
             let repEv = document.getElementById("event");
-            repEv.removeAttribute("oncopy");
-            repEv.setAttribute("oncopy", "console.log('It seems I have been copied again!')");
+            
+            let replace = function(event) {
+            event.removeAttribute("oncopy");
+            event.setAttribute("onclick", 'console.log("It seems now I have been clickied!")');
+            }; //создали функцию для замены события-атрибута
+
+            replace(repEv);
 
         }
 
+        {//Предотвращение стандартного действия
+
+          // вызовем pink(), если нажнем на кнопку 
+
+          let prawn = document.getElementById("prawn");
+
+          function pink() {
+            let eventDef = new CustomEvent("pink", {
+              cancelable: true // иначе preventDefault не будет вызван
+            });
+            if (!prawn.dispatchEvent(eventDef)) {
+             console.log("It does not want to be pink!");
+            } else {
+              prawn.style.color = "pink";
+              prawn.style.backgroundColor = "black";
+            }
+          }
+
+          prawn.addEventListener("pink", function(event) {
+            if (!confirm("Are you sure I shouldn't call preventDefault?")) {
+              event.preventDefault();
+              console.log("Default prevented: " + event.defaultPrevented);
+            }
+          });
+
+        }
+
+        {//Установка события-атрибута через шорткат, проверка события на валидность, детектирование типа события
+
+            //уставновка события через шорткат
+            document.getElementById("Shortcut").onclick = function checkNumber() {
+                let numOnCheck = document.getElementById("myNumber");
+                if (numOnCheck.checkValidity() === false) { //проверка события на валидность
+                    console.log("Choose from 5 to 20");
+                } else {
+                    console.log("Accepted");
+                }
+
+            }
+
+            console.log("Event Type: " + document.getElementById("Shortcut").type); //детектирования типа события
+        }
         
+        {//Создание одиночного слушателя, немедленное прекращение распространения, создание пассивного слушателя, определение истинной цели события, демонстрация различных фаз события
+            
+            document.getElementById("1").addEventListener("click", () => {
+            console.log("I run only once!");
+            }, { once: true }); //создание одиночного слушателя на примере click
+
+            let stop = document.getElementById("meow");
+            stop.addEventListener("click", executed);
+            stop.addEventListener("click", notExecuted);
+
+            function executed(event) {
+              console.log ("Probably, that was cat!");
+              event.stopImmediatePropagation(); //немедленное прекращение распространения на примере "click"
+            }
+
+            function notExecuted() {
+              console.log ("But who knows...");
+            }
+
+
+            document.body.addEventListener("wheel", (event)=> {
+                console.log ("Scrooooooolling");
+                //event.preventDefault();
+            }, {capture: false, passive: true}); //пассивный слушатель, никогда не вызовет preventDefault(), если вызвать в консоли будет ошибка, но функция будет вызвана, пассивный слушатель предусматривает capture: false!
+
+            // Создадим список для опредления цели события
+                let ol = document.createElement('ol');
+                document.body.appendChild(ol);
+
+                let li1 = document.createElement('li');
+                li1.innerText = "I want to disappear!";
+                let li2 = document.createElement('li');
+                li2.innerText = "Me too!";
+                ol.appendChild(li1);
+                ol.appendChild(li2);
+
+                function disappear(element){
+                  element.target.style.visibility = "hidden";
+                } //сслылается на родителя li; здесь представлено всплытие
+
+                ol.addEventListener("click", disappear);
+
+                //Демонстрация фаз события (погружение, цель (где будет клик), всплытие)
+                for(let element of document.querySelectorAll(".phase")) {
+                    element.addEventListener("click", () => console.log(`Capturing: ${element.tagName}`), {capture: true});
+                    element.addEventListener("click", () => console.log(`Bubbling: ${element.tagName}`));
+                }
+
+            
+        }
+
     </script>
 </body>
 </html>
