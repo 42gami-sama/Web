@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+
+<!-- Наталия Громыко:   Создание элемента   Добавление нового элемента  Навигация по DOM    
+    Создание текстового узла    Создание фрагмента документа    Манипуляция атрибутами  Удаление атрибута   
+    Установка атрибута  Установка класса    Установка ID    Изменение HMTL в текстовом виде 
+    Демонстрация проблемы изменения HTML в текстовом виде   Переход к следующему узлу   Переход к предыдущему узлу  
+    Узлы-потомки    Переход к предыдущему элементу  Элементы-потомки    Переход к родителю  
+    Добавить первым в элемент   Добавить последним в элемент    Добавить в середину элемента    
+    Добавить за элементом   Удалить элемент из DOM  Нормализация содержимого    Добавление текстового узла  
+    Добавление фрагмента документа Получение элемента по ID    Псевдоселектор scope    Использование только событий мыши   
+    Использование только событий клавиатуры Использование только событий прокрутки  Использование только кастомных событий  
+    Создание своего события Отправка своего события Проверка события на валидность  Предотвращение стандартного действия    
+    Немедленное прекращение распространения Установка события   Установка события-атрибута  Удаление события    
+    Замена события-атрибута Установка события-атрибута через шорткат Демонстрация различных фаз события  
+    Создание одиночного слушателя   Создание пассивного слушателя   Определение истинной цели события   
+    Детектирование типа события Демонстрация бессмысленности passive capture --> 
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Elements and events</title>
+    <style>
+
+        :root { 
+            background-color: #D8F3F3;
+        }
+
+        #welcome {
+            background-color: pink;
+        };
+
+        .hey {
+           color: red;
+        };
+
+        .line {
+           color: blueviolet;
+        };
+
+    </style>
+</head>
+<body>
+
+    <div class="hey" style=""><p>Let's get started!</p></div>
+
+    <section id="hello"> </section>
+
+    <ul id="menu"><li class="siblings">Drinks</li></ul>
+
+    <section id="text" style="background-color: skyblue;:"> <p id="meow"> Meow </p><p id="remove">Woof</p> </section>
+
+    <section id="ohNo"><p><b>I am here and I am alive and I am bold!</b></p></section>
+    <section id="scope">
+        <div id="1">Look at me!</div>
+        <div id="2">Please:3</div>
+    </section>
+
+    <section id="event" oncopy="console.log('Copied!')"> Copy me! </section> <!--уставнока события-атрибута 
+        (для кастомных события-атриубута нет)-->
+   
+    <div id="prawn"> I do not want to be pink! </div>
+    <button onclick="pink()">Press to make the phrase pink</button> <!--уставнока события-атрибута 
+        нужна для предотвращения дефолтного события ниже-->
+
+    <section>
+        <input id="myNumber" type="number" min="5" max="20" required>
+        <button id="Shortcut" >Let's check your number!</button>
+    </section>
+
+    <section class="phase">SECTION
+        <div class="phase">DIV
+            <p class="phase">P</p>
+        </div>
+    </section>
+
+
+    <script>
+        {// Создание элемента, добавление элемента, создание текстового узла, навигация по DOM, 
+            //получение элемента по ID, переход к родителю, переход к предыдущему узлу, установка атрибута
+
+            let attr = document.querySelector(".hey")
+            attr.setAttribute("style", "position: relative; left: 300px"); //установка атрибута
+
+            let newH1 = document.createElement("h1"); //создание элемента
+            newH1.id = "welcome"; //установка ID
+
+            let = textWelcome = document.createTextNode (" Welcome! We have some cute elements!");//создание текстового узла
+
+            newH1.appendChild(textWelcome);
+
+            let hello = document.getElementById("hello"); //получение элемента по ID
+            
+            hello.appendChild(newH1); // навигация DOM, добавление элемента последним в элемент
+
+
+            console.log(newH1.childNodes[0] === newH1.firstChild); //всегда правда
+            console.log ("Первый потомок:" + newH1.firstChild); //навигация по DOM - получили доступ к первому узлу элемента (тут он один - текстовый)
+            
+            console.log ("By the way, let us see our parent node:");
+            console.log (newH1.parentNode); //переход к родителю
+
+            console.log ("Hm, and what was the previous node for our welcome:");
+            let presentNode = document.querySelector ("#hello").previousSibling;
+            console.log (presentNode);
+
+        }
+
+        {// Создание фрагмента документа, его добавление,переход к следующему узлу, 
+            //узлы-потомки, переход к предыдущему элементу, элементы-потомки
+
+            let meals = ["Meat", "Fish", "Vegetables", "Fruit"]; //массив для списка
+            
+            let menuEl = document.querySelector("#menu");
+            let FD = document.createDocumentFragment(); //создание фрагмента документа
+
+            meals.forEach((meal) => {
+                let myList = document.createElement("li");
+                myList.innerHTML = meal;
+                FD.appendChild(myList); //наполнение фрагмента
+            });
+
+            menuEl.appendChild(FD); //добавление фрагмента документа
+
+            if (FD.nodeType === Node.DOCUMENT_FRAGMENT_NODE){
+                console.log ("True"); //TRUE
+            }
+
+            console.log ("Besides, we can see the next sibling of the first list node:")
+            let nextSibling = document.querySelector(".siblings").nextSibling;//переход к следующему узлу
+            console.log (nextSibling);
+
+            console.log ("And it seems our next sibling has a child node which is text:");
+            let children = nextSibling.childNodes;
+            console.log (children); //перечислены узлы-потомки (тут один)
+            
+            console.log ("But the child node is not a child element here:")
+            if (children[0] != nextSibling.firstElementChild) {
+                console.log ("True"); //nextSibling.firstElementChild - здесь будет null, а children[0] - "Meat"; элементы-потомки
+            }
+
+            console.log ("Oh, and let'\s find out what was the previous element for our list:");
+            let previousElSibling = menuEl.previousElementSibling; //предыдущий элемент
+            console.log (previousElSibling);
+        }
+        {//Манипуляция атрибутами, удаление атрибута, установка класса, добавление текстового узла, 
+            //добавить первым в элемент, добавить в середину элемента, добавить за элементом, удаление элемента из DOM, нормализация содержимого
+
+            console.log ("Let's check if the attribute exists:")
+            let myText = document.getElementById("text");
+            console.log(myText.hasAttribute ("style")); //true, манипуляция атрибутами
+            myText.removeAttribute ("style"); //удаление атрибута
+
+            let p1 = document.createElement("p");
+            p1.className = "line1 line2"; //установка класса
+
+            let text1 = document.createTextNode (" I am the first!"); //создание текстового узла
+            let text2 = document.createTextNode (" I am not in italics!")
+            p1.appendChild(text1); //добавление текстового узла 
+            p1.appendChild(text2); 
+            console.log(p1.childNodes.length); //тут есть два узла-потомка
+            p1.normalize();
+            console.log(p1.childNodes.length); //тут уже один, так как мы нормализовали содержимое
+
+            myText.insertBefore(p1, myText.firstChild); //добавить первым в элемент
+
+            let p2 = document.createElement("p");
+            p2.textContent = "I was here!";
+            p2.innerHTML = "<i>I'm in the middle</i>";
+
+            myText.insertBefore(p2, myText.firstChild.nextSibling); //добавить в середину + за элементом
+
+            let eliminate = document.getElementById ("remove");
+            eliminate.remove();//удаление элемента
+            
+        }
+        { //Изменение HMTL в текстовом виде, демонстрация проблемы изменения HTML в текстовом виде
+            let ohNo = document.getElementById("ohNo");
+            ohNo.innerText = "I have eaten everything here!";
+            ohNo.innerHTML += "<b>I have eaten everything here but at least I'm bold!</b>"; // при innerHTML += может возникнуть проблема
+            //из-за того, что содержимое переписывается заново, тогда все изображения и другие ресурсы будут перезагружены, то есть будет сильно
+            //заметно и ресурсозатратно 
+        }
+        { //Псевдоселектор scope
+            let scope = document.getElementById("scope");
+            let selected = scope.querySelectorAll(":scope > div")[0]; //применили :scope, чтобы получить доступ к первому элементу-потомку
+            console.log (selected);
+        }
+
+        {//Кастомные события, создание своего события, отправка своего события, уставновка события, 
+            //установка события-атрибута (выше), удаление события, замена события-атрибута
+
+            function highlight(element) {
+                let bgColor = "#FFD595";
+                element.style.backgroundColor = bgColor; //задаем функцию для события
+        
+            let eventMine = new CustomEvent ("highlight", {
+                detail: {
+                    backgroundColor: bgColor
+                }
+            }); //создаем кастомное событие
+
+            element.dispatchEvent(eventMine); //отправляем событие
+            }
+
+            let elEv = document.getElementById("event"); //получаем элемент для события
+
+            let look = function(event){
+                console.log ("My background is orange!");
+            }
+
+            let lookX2 = function(event){
+                console.log ("No one will be able to see me!");
+            }
+
+            elEv.addEventListener("highlight", look); //установка события
+            
+
+            highlight(elEv); //применили функцию для события на элемент
+        
+            elEv.removeEventListener("highlight", look); //удалили событие
+
+            highlight(elEv); //ничего не выведется 
+
+            let repEv = document.getElementById("event");
+            
+            let replace = function(event) {
+            event.removeAttribute("oncopy");
+            event.setAttribute("onclick", 'console.log("It seems now I have been clickied!")');
+            }; //создали функцию для замены события-атрибута
+
+            replace(repEv);
+
+        }
+
+        {//Предотвращение стандартного действия
+
+          // вызовем pink(), если нажнем на кнопку 
+
+          let prawn = document.getElementById("prawn");
+
+          function pink() {
+            let eventDef = new CustomEvent("pink", {
+              cancelable: true // иначе preventDefault не будет вызван
+            });
+            if (!prawn.dispatchEvent(eventDef)) {
+             console.log("It does not want to be pink!");
+            } else {
+              prawn.style.color = "pink";
+              prawn.style.backgroundColor = "black";
+            }
+          }
+
+          prawn.addEventListener("pink", function(event) {
+            if (!confirm("Are you sure I shouldn't call preventDefault?")) {
+              event.preventDefault();
+              console.log("Default prevented: " + event.defaultPrevented);
+            }
+          });
+
+        }
+
+        {//Установка события-атрибута через шорткат, проверка события на валидность, детектирование типа события
+
+            //уставновка события через шорткат
+            document.getElementById("Shortcut").onclick = function checkNumber() {
+                let numOnCheck = document.getElementById("myNumber");
+                if (numOnCheck.checkValidity() === false) { //проверка события на валидность
+                    console.log("Choose from 5 to 20");
+                } else {
+                    console.log("Accepted");
+                }
+
+            }
+
+            console.log("Event Type: " + document.getElementById("Shortcut").type); //детектирования типа события
+        }
+        
+        {//Создание одиночного слушателя, немедленное прекращение распространения, создание пассивного слушателя, 
+            //определение истинной цели события, демонстрация различных фаз события
+            
+            document.getElementById("1").addEventListener("click", () => {
+            console.log("I run only once!");
+            }, { once: true }); //создание одиночного слушателя на примере click
+
+            let stop = document.getElementById("meow");
+            stop.addEventListener("click", executed);
+            stop.addEventListener("click", notExecuted);
+
+            function executed(event) {
+              console.log ("Probably, that was cat!");
+              event.stopImmediatePropagation(); //немедленное прекращение распространения на примере "click"
+            }
+
+            function notExecuted() {
+              console.log ("But who knows...");
+            }
+
+
+            document.body.addEventListener("wheel", (event)=> {
+                console.log ("Scrooooooolling");
+                //event.preventDefault();
+            }, {capture: false, passive: true}); //пассивный слушатель, никогда не вызовет preventDefault(), 
+            //если вызвать в консоли будет ошибка, но функция будет вызвана, пассивный слушатель предусматривает capture: false!
+
+            // Создадим список для опредления цели события
+                let ol = document.createElement('ol');
+                document.body.appendChild(ol);
+
+                let li1 = document.createElement('li');
+                li1.innerText = "I want to disappear!";
+                let li2 = document.createElement('li');
+                li2.innerText = "Me too!";
+                ol.appendChild(li1);
+                ol.appendChild(li2);
+
+                function disappear(element){
+                  element.target.style.visibility = "hidden";
+                } //сслылается на родителя li; здесь представлено всплытие
+
+                ol.addEventListener("click", disappear);
+
+                //Демонстрация фаз события (погружение, цель (где будет клик), всплытие)
+                for(let element of document.querySelectorAll(".phase")) {
+                    element.addEventListener("click", () => console.log(`Capturing: ${element.tagName}`), {capture: true});
+                    element.addEventListener("click", () => console.log(`Bubbling: ${element.tagName}`));
+                }
+
+            
+        }
+
+    </script>
+</body>
+</html>
