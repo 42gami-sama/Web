@@ -83,18 +83,19 @@
 
             let newH1 = document.createElement("h1"); //создание элемента
             newH1.id = "welcome"; //установка ID
-            newH1.textContent = "Welcome! We have some cute elements!"; //создание текстового узла
+
+            let = textWelcome = document.createTextNode (" Welcome! We have some cute elements!");//создание текстового узла
+
+            newH1.appendChild(textWelcome);
 
             let hello = document.getElementById("hello"); //получение элемента по ID
             
             hello.appendChild(newH1); // навигация DOM, добавление элемента последним в элемент
 
 
-            if (newH1.childNodes[0] === newH1.firstChild){
-                console.log ("True");
-                console.log (newH1.firstChild); //навигация по DOM - получили доступ к первому узлу элемента (тут он один - текстовый)
-                }
-
+            console.log(newH1.childNodes[0] === newH1.firstChild); //всегда правда
+            console.log ("Первый потомок:" + newH1.firstChild); //навигация по DOM - получили доступ к первому узлу элемента (тут он один - текстовый)
+            
             console.log ("By the way, let us see our parent node:");
             console.log (newH1.parentNode); //переход к родителю
 
@@ -175,11 +176,13 @@
         { //Изменение HMTL в текстовом виде, демонстрация проблемы изменения HTML в текстовом виде
             let ohNo = document.getElementById("ohNo");
             ohNo.innerText = "I have eaten everything here!";
-            ohNo.innerHTML = "<b>I have eaten everything here but at least I'm bold!</b>";
+            ohNo.innerHTML += "<b>I have eaten everything here but at least I'm bold!</b>"; // при innerHTML += может возникнуть проблема
+            //из-за того, что содержимое переписывается заново, тогда все изображения и другие ресурсы будут перезагружены, то есть будет сильно
+            //заметно и ресурсозатратно 
         }
         { //Псевдоселектор scope
             let scope = document.getElementById("scope");
-            let selected = scope.querySelectorAll(":scope > div")[0]; //применили :scope, чтобы получить доступ к первому элементe-потомку
+            let selected = scope.querySelectorAll(":scope > div")[0]; //применили :scope, чтобы получить доступ к первому элементу-потомку
             console.log (selected);
         }
 
