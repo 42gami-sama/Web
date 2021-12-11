@@ -23,7 +23,7 @@
 	    	background-color: hotpink;
 	   		color: #fff;
 	    	padding: 3px 6px;
-		};
+		}
 
 		img {
          	border: 0.7cm solid red;
@@ -263,18 +263,20 @@
 
 				function postData(formattedData){
 
-	      fetch(url, {
-	    		method: "POST",
-	    		body: formattedData
-				})
-				.then(response => {
-	    	return response.text();
-				})
-				.then(text => {
-					console.log(text);
-				});
+		      fetch(url, {
+		    		method: "POST",
+		    		body: formattedData
+					})
+					.then(response => response.text()
+					)
+					.then(text => {
+						console.log(text);
+					})
+					.catch(e => {
+	  				console.log("Problem with the fetch operation: " + e.message);
+					});
+				};
 			};
-		};
 	    	
     </script>
  
