@@ -1,0 +1,157 @@
+<!--1. Создать форму + отправка её на сервер + вывод результата, получить на сервере значение
+	2. Fetch - отправить на сервер какие-то данные, получть результат, как-то его вывести
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Forms</title>
+    <style>
+
+    	:root {
+    		background-color: pink;
+    	}
+
+    	.header {
+    		background-color: hotpink;
+	    	color: #fff;
+	    	padding: 3px 6px;
+    	}
+        
+    	legend {
+	    	background-color: hotpink;
+	   		color: #fff;
+	    	padding: 3px 6px;
+		};
+
+	</style>
+    </head>
+<body>
+	<form>
+		<h1 class="header">BentoBox Constructor</h1>
+		<p><b>Note</b>: the fields with the symbol <abbr title="Required Fields">&#127857;</abbr> must be filled.</p>
+		<section>
+			<h2>Create your BentoBox</h2>
+			   <fieldset>
+			      <legend>BentoBox Animal</legend>
+			      <ul>
+			          <li>
+			            <label for="animal_1">
+			              <input type="radio" id="animal_1" name="title" value="K" >
+			              Nyan Cat
+			            </label>
+			          </li>
+			          <li>
+			            <label for="animal_2">
+			              <input type="radio" id="animal_2" name="title" value="Q">
+			              Elegant Butterfly
+			            </label>
+			          </li>
+			          <li>
+			            <label for="animal_3">
+			              <input type="radio" id="animal_3" name="title" value="J">
+			              Cool Dragon
+			            </label>
+			          </li>
+			      </ul>
+			    </fieldset>
+			    <fieldset>
+			      <legend>Choose the ingredients</legend>
+			      <p>
+			      <label for="salad">
+			        <span>What will be your salad?</span>
+			        <abbr title="Required Fields">&#127857;</abbr>
+			      </label>
+			      <select id="salad" name="customer_salad">
+			        <option value="5veggies">5 Vegeatbles</option>
+			        <option value="carrot">Carrot Salad</option>
+			        <option value="seaweed">Seaweed Salad</option>
+			      </select>
+			      </p>
+			      <p>
+			      <label for="main">
+			        <span>Choose the main course:</span>
+			        <abbr title="Required Fields">&#127857;</abbr>
+			      </label>
+			      <select id="main" name="customer_main">
+			        <option value="curry">Chicken Curry</option>
+			        <option value="eggs">Omuraisu</option>
+			        <option value="sausage">Octopus Sausages</option>
+			      </select>
+			      </p>
+			      <p>
+			      <label for="side">
+			        <span>And now what about the side dish:</span>
+			        <abbr title="Required Fields">&#127857;</abbr>
+			      </label>
+			      <select id="side" name="customer_side">
+			        <option value="takoyaki">Takoyaki</option>
+			        <option value="taiyaki">Taiyaki</option>
+			        <option value="onigiri">Onigiri</option>
+			      </select>
+			      </p>
+			   	  <p>
+			   	  <label for="add">
+			      	<div>And maybe choose something additional:</div>
+			      </label>
+			      <input type="checkbox" id="add">Salmon Sushi
+  				  <input type="checkbox" id="add">Matcha Roulette
+   				  <input type="checkbox" id="add">Ichigo Mochi
+   				  <input type="checkbox" id="add">Miso Soup <br>
+   				  <input type="checkbox" id="add">Melon Ice-Cream
+   				  <input type="checkbox" id="add">Ramen
+   				  </label></p>
+			    </fieldset>
+			</section>
+			<section>
+			<h2>Contact information</h2>
+			    <p>
+			      <label for="name">
+			        <span>Name:</span>
+			        <abbr title="Required Fields">&#127857;</abbr>
+			      </label>
+			      <input type="text" id="name" name="user_name">
+			    </p>
+			    <p>
+			      <label for="email">
+			        <span>E-mail: </span>
+			        <abbr title="Required Fields">&#127857;</abbr>
+			      </label>
+			      <input type="mail" id="email" name="user_email">
+			    </p>
+			    <p>
+			      <label for="code_sms">
+			        <span>SMS-code: </span>
+			        <abbr title="Required Fields">&#127857;</abbr>
+			      </label>
+			      <input type="password" id="code_sms" name="code">
+			    </p>
+
+			    <p>
+				<label for="number">
+			        <span>Telephone:</span>
+			        <abbr title="Required Fields">&#127857;</abbr>
+			    </label>
+			      	<input type="tel" id="number" name="user_tel">
+			    </p>
+			    <div>
+			    <label for="comment"><b>Do you have some other important information?</b></label>
+			    	<textarea id="comment" name="comment" cols="70" rows="8"></textarea>
+				</div>
+			</section>
+			<button style = "color: #fff; background-color: hotpink; border-color: pink;" type="submit">Send my order!</button>
+
+				</form>
+		
+</body>
+	<?php
+  		// The global $_POST variable allows you to access the data sent with the POST method by name
+  		// To access the data sent with the GET method, you can use $_GET
+  		$say = htmlspecialchars($_POST['say']);
+  		$to  = htmlspecialchars($_POST['to']);
+
+  		echo  $say, ' ', $to;
+	?>
+
+</html>
