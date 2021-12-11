@@ -150,7 +150,7 @@
 				<section>
 				<p> </p>
 				<fieldset>
-			    <legend>Your order</legend>
+			    <legend>Your preferences</legend>
 					<p> Dear <?php echo $_POST["user_name"]; ?>,<br>
 						Your BentoBox has been accepted and will be packed soon!<br>
 						It will arrive in <?php echo $_POST["box"]; ?> style and will include <?php echo $_POST["customer_salad"]; ?>, <?php echo $_POST["customer_main"]; ?> and <?php echo $_POST["customer_side"]; ?>.<br>
